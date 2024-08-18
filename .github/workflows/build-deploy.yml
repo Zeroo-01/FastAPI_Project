@@ -12,8 +12,17 @@ on: [push, pull_request]
 jobs:
   job1:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
     steps:
       - name: pulling git repo
         uses: actions/checkout@v2
-      - name: say hi to lak
-        run: echo "hi lak"
+      - name: Install python version 3.11
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: update pip
+        run: python -m pip install --upgrade pip
+      - name: install all dependencies
+        run: pip install -r requirements.txt
