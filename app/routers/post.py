@@ -70,7 +70,7 @@ def delete_post(id: int, db: Session = Depends(get_db),current_user: int = Depen
     if post.owner_id!=current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You are not authorized to delete this post")
     
-    post.delete(synchronize_session=False)
+    post_query.delete(synchronize_session=False)
     db.commit()
     return {Response(status_code=status.HTTP_204_NO_CONTENT)}  
 
